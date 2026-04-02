@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КиберЩит · Занятие 3: Опасные контакты и давление</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #1e2a3e, #0f1a2a);
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .presentation-container {
+            max-width: 1300px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .slide {
+            display: none;
+            background: #fef9e7;
+            border-radius: 80px;
+            padding: 50px 60px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 0 6px #f28b6b, 0 0 0 12px #1e2a3e;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        h1 {
+            font-size: 64px;
+            font-weight: 900;
+            color: #1e2a3e;
+            border-left: 15px solid #f28b6b;
+            padding-left: 25px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 48px;
+            color: #1e2a3e;
+            margin: 20px 0;
+        }
+
+        .tagline {
+            background: #ffe0b0;
+            border-radius: 70px;
+            padding: 20px 35px;
+            font-size: 28px;
+            font-weight: 600;
+            color: #b05a3f;
+            text-align: center;
+            margin: 30px 0;
+            border: 3px dashed #f28b6b;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .card {
+            background: #fff5e0;
+            border: 4px solid #f28b6b;
+            border-radius: 50px;
+            padding: 25px;
+            font-size: 22px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .message-card {
+            background: #f9f4e9;
+            border: 4px solid #c0a86a;
+            border-radius: 50px;
+            padding: 25px;
+            font-size: 22px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .flag-list {
+            background: #ffe0b0;
+            border-radius: 50px;
+            padding: 25px;
+            margin: 20px 0;
+            font-size: 22px;
+        }
+
+        .red-flag { color: #c62828; font-weight: 700; }
+        .green-flag { color: #2e7d32; font-weight: 700; }
+
+        .roleplay {
+            background: #e8f0fe;
+            border-radius: 60px;
+            padding: 35px;
+            margin: 30px 0;
+            border-left: 15px solid #f28b6b;
+            font-size: 24px;
+            font-style: italic;
+        }
+
+        .button {
+            background: #f28b6b;
+            color: #1e2a3e;
+            padding: 12px 30px;
+            border-radius: 60px;
+            font-size: 22px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+            margin: 10px 5px;
+        }
+
+        .button:hover {
+            background: #e06a4a;
+            transform: scale(1.02);
+        }
+
+        .hidden-answer {
+            display: none;
+            background: #e0f0e0;
+            border-radius: 50px;
+            padding: 20px;
+            margin-top: 20px;
+            font-size: 22px;
+        }
+
+        .active-answer {
+            display: block;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .nav-btn {
+            background: #f28b6b;
+            border: none;
+            color: #1e2a3e;
+            font-size: 32px;
+            font-weight: 800;
+            padding: 15px 45px;
+            border-radius: 70px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: #e06a4a;
+            transform: scale(1.05);
+        }
+
+        .slide-counter {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 24px;
+            color: #ffe0b0;
+            font-weight: 600;
+            background: #1e2a3ecc;
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 60px;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .question-box {
+            background: #f0e6d2;
+            border: 3px solid #f28b6b;
+            border-radius: 50px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .question-box p {
+            font-size: 26px;
+            font-weight: 600;
+            color: #1e2a3e;
+        }
+
+        .stats-box {
+            background: #d9e9ff;
+            border-radius: 50px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .lecture-block {
+            background: #e6f0fa;
+            border-radius: 60px;
+            padding: 35px;
+            margin: 25px 0;
+            font-size: 24px;
+            line-height: 1.5;
+        }
+
+        .game-feedback {
+            margin-top: 30px;
+            font-size: 24px;
+            padding: 20px;
+            border-radius: 50px;
+            display: none;
+        }
+
+        .scene-description {
+            background: #fdf0dc;
+            border-radius: 60px;
+            padding: 30px;
+            margin: 30px 0;
+            font-size: 22px;
+            border-left: 8px solid #f28b6b;
+        }
+
+        .joke {
+            background: #fff0d6;
+            border-radius: 60px;
+            padding: 30px;
+            margin: 25px 0;
+            font-size: 24px;
+            text-align: center;
+            border: 2px solid #f28b6b;
+        }
+
+        @media (max-width: 700px) {
+            .slide { padding: 25px; }
+            h1 { font-size: 40px; }
+            h2 { font-size: 32px; }
+            .nav-btn { padding: 12px 25px; font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+<div class="presentation-container">
+    <div class="slide-counter">
+        📖 СЛАЙД <span id="currentSlide">1</span> / <span id="totalSlides">30</span>
+    </div>
+
+    <!-- Слайд 1: Вступление -->
+    <div class="slide active" id="slide1">
+        <h1>🛡️ ЗАНЯТИЕ 3</h1>
+        <div class="tagline">
+            Опасные контакты и давление: как выйти из ситуации и не остаться одному
+        </div>
+        <div style="text-align: center; margin: 50px 0;">
+            <p style="font-size: 36px; color: #1e2a3e; font-weight: 800;">Если стало стрёмно — это уже повод остановиться.</p>
+            <div class="stats-box">
+                <p>📊 63% подростков сталкивались с давлением в интернете</p>
+                <p>📊 Каждый третий не знал, как выйти из диалога</p>
+                <p>📊 Твоя безопасность важнее вежливости</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Слайд 2: Приветствие -->
+    <div class="slide" id="slide2">
+        <h2>👋 ПРИВЕТСТВИЕ</h2>
+        <div class="lecture-block">
+            <p>На прошлых занятиях мы говорили про манипуляции, фишинг и фейковую поддержку. Сегодня тема другая — <strong>люди</strong>. Иногда опасность — это не вирус и не ссылка, а разговор, который пошёл «не туда».</p>
+        </div>
+        <div class="question-box">
+            <p>💬 Вопрос: было ли у кого-то ощущение <em>«мне некомфортно, но я не понимаю почему»</em>?</p>
+        </div>
+    </div>
+
+    <!-- Слайд 3: Разогрев — что здесь не так? -->
+    <div class="slide" id="slide3">
+        <h2>⚡ РАЗОГРЕВ: ЧТО ЗДЕСЬ НЕ ТАК?</h2>
+        <div class="grid-2">
+            <div class="card" onclick="toggleAnswer(this)"><p>1️⃣ «Давай в Telegram, тут неудобно писать»</p><div class="hidden-answer">🔴 Подозрительно — попытка вывести из безопасной среды.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>2️⃣ «Только никому не говори»</p><div class="hidden-answer">🔴 Красный флаг — давление молчанием.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>3️⃣ «Если не ответишь — будут проблемы»</p><div class="hidden-answer">🔴 Открытая угроза, опасное давление.</div></div>
+        </div>
+        <div class="question-box"><p>👉 Подними руку, если чувствуешь, что тут что-то не ок, даже если не можешь объяснить.</p></div>
+    </div>
+
+    <!-- Слайд 4: Проблемный кейс -->
+    <div class="slide" id="slide4">
+        <h2>📖 ПРОБЛЕМНЫЙ КЕЙС</h2>
+        <div class="roleplay">
+            «Мне написали в Roblox, потом позвали в Telegram. Сказали, что я “крутой” и “им можно доверять”. Потом попросили не рассказывать родителям.»
+        </div>
+        <div class="question-box">
+            <p>❓ Вопросы:</p>
+            <ul>
+                <li>Где разговор начал меняться?</li>
+                <li>Почему просьба «не говорить взрослым» — тревожный сигнал?</li>
+            </ul>
+        </div>
+        <div class="flag-list">
+            <p><span class="red-flag">🎯 Тревожные моменты:</span> переход в другой мессенджер, изоляция, запрет на рассказ взрослым.</p>
+        </div>
+    </div>
+
+    <!-- Слайд 5: Цели занятия -->
+    <div class="slide" id="slide5">
+        <h2>🎯 ЦЕЛИ ЗАНЯТИЯ</h2>
+        <ul style="font-size: 28px; margin-left: 60px;">
+            <li>✅ распознавать опасное давление</li>
+            <li>✅ понимать, какие фразы — красные флаги</li>
+            <li>✅ выходить из общения спокойно и безопасно</li>
+        </ul>
+    </div>
+
+    <!-- Слайд 6: Мини-теория — что такое давление -->
+    <div class="slide" id="slide6">
+        <h2>📘 ЧТО ТАКОЕ ДАВЛЕНИЕ?</h2>
+        <div class="lecture-block">
+            <p><strong>Давление</strong> — это когда тебя торопят, пугают, изолируют, делают ответственным за чужие эмоции. Манипуляторы используют фразы, которые заставляют тебя чувствовать себя виноватым или обязанным.</p>
+        </div>
+        <div class="flag-list">
+            <p><span class="red-flag">🚩 Частые фразы давления:</span> «Ты же мне доверяешь», «Все так делают», «Если расскажешь — будет хуже», «Ты меня подставишь».</p>
+            <p class="green-flag">💡 Если тебя заставляют молчать — это почти всегда опасно.</p>
+        </div>
+    </div>
+
+    <!-- Слайд 7: Красные флаги общения -->
+    <div class="slide" id="slide7">
+        <h2>🚩 КРАСНЫЕ ФЛАГИ ОБЩЕНИЯ</h2>
+        <div class="grid-2">
+            <div class="card" onclick="toggleAnswer(this)"><p>🚩 Просят перейти в другие мессенджеры</p><div class="hidden-answer">Настоящие друзья не выводят разговор из безопасного места.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>🚩 Задают личные вопросы</p><div class="hidden-answer">Незнакомцы не должны знать твои личные данные.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>🚩 Давят на жалость или страх</p><div class="hidden-answer">«Если ты мне не поможешь, я…»</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>🚩 Просят скрывать разговор</p><div class="hidden-answer">«Только никому не говори» — главный красный флаг.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>🚩 Говорят «ты сам виноват, если…»</p><div class="hidden-answer">Перекладывание ответственности — манипуляция.</div></div>
+        </div>
+        <div class="flag-list"><p class="green-flag">💡 Один флаг — уже повод насторожиться. Несколько — повод выйти из общения.</p></div>
+    </div>
+
+    <!-- Слайд 8: Фразы-щиты -->
+    <div class="slide" id="slide8">
+        <h2>🛡️ ФРАЗЫ-ЩИТЫ</h2>
+        <div class="lecture-block">
+            <p><strong>Фраза-щит</strong> — короткий ответ, который не объясняется, не оправдывается, даёт тебе выход. Ты не обязан быть вежливым, если тебе небезопасно.</p>
+        </div>
+        <div class="grid-2">
+            <div class="card" onclick="toggleAnswer(this)"><p>«Мне так нельзя»</p><div class="hidden-answer">Универсальная фраза — не требует пояснений.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>«Я спрошу у взрослых»</p><div class="hidden-answer">Показывает, что ты не один.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>«Я не буду это обсуждать»</p><div class="hidden-answer">Чёткая граница.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>«Я выхожу из чата»</p><div class="hidden-answer">Действие без лишних слов.</div></div>
+        </div>
+    </div>
+
+    <!-- Слайд 9: Практика 1 — сортировка фраз -->
+    <div class="slide" id="slide9">
+        <h2>📋 ПРАКТИКА 1: СОРТИРОВКА ФРАЗ</h2>
+        <div class="grid-2">
+            <div class="message-card" onclick="toggleAnswer(this)"><p>«Как тебя зовут?»</p><div class="hidden-answer">🟢 Обычное общение (но осторожно с незнакомцами)</div></div>
+            <div class="message-card" onclick="toggleAnswer(this)"><p>«Скинь скрин экрана»</p><div class="hidden-answer">🔴 Давление — просьба личных данных.</div></div>
+            <div class="message-card" onclick="toggleAnswer(this)"><p>«Переходи в Discord»</p><div class="hidden-answer">🔴 Попытка вывести из безопасного места.</div></div>
+            <div class="message-card" onclick="toggleAnswer(this)"><p>«Ты можешь отказаться»</p><div class="hidden-answer">🟢 Уважение границ.</div></div>
+            <div class="message-card" onclick="toggleAnswer(this)"><p>«Только не рассказывай родителям»</p><div class="hidden-answer">🔴 Изоляция — очень опасный флаг.</div></div>
+            <div class="message-card" onclick="toggleAnswer(this)"><p>«Почему ты игноришь?»</p><div class="hidden-answer">🔴 Давление чувством вины.</div></div>
+        </div>
+    </div>
+
+    <!-- Слайд 10: Практика 2 — ролевые сцены -->
+    <div class="slide" id="slide10">
+        <h2>🎭 ПРАКТИКА 2: РОЛЕВЫЕ СЦЕНЫ</h2>
+        <div class="roleplay">Сцена 1: «Давай в другой чат, тут неудобно»</div>
+        <div class="flag-list"><p>🛡️ Фраза-щит: <strong>«Мне удобно здесь, я не перехожу»</strong></p></div>
+        <div class="roleplay">Сцена 2: «Почему ты игноришь? Ответь!»</div>
+        <div class="flag-list"><p>🛡️ Фраза-щит: <strong>«Я выхожу из чата»</strong> (и блок)</p></div>
+        <div class="roleplay">Сцена 3: «Если не ответишь — пожалеешь»</div>
+        <div class="flag-list"><p>🛡️ Фраза-щит: <strong>«Я расскажу взрослым»</strong> (и блок)</p></div>
+    </div>
+
+    <!-- Слайд 11: Алгоритм "Если стало стрёмно" -->
+    <div class="slide" id="slide11">
+        <h2>🛡️ АЛГОРИТМ: «ЕСЛИ СТАЛО СТРЁМНО»</h2>
+        <div class="grid-2">
+            <div class="card" onclick="toggleAnswer(this)"><p>1️⃣ Остановись</p><div class="hidden-answer">Не отвечай сразу. Сделай паузу.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>2️⃣ Выйди из чата</p><div class="hidden-answer">Закрой приложение, отойди.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>3️⃣ Заблокируй</p><div class="hidden-answer">Не давай возможности продолжать давить.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>4️⃣ Сохрани доказательства</p><div class="hidden-answer">Скриншоты — твоя защита.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>5️⃣ Расскажи взрослому</p><div class="hidden-answer">Не молчи, помощь рядом.</div></div>
+        </div>
+        <div class="flag-list"><p class="green-flag">💡 Молчание — не защита. Рассказ — это помощь.</p></div>
+    </div>
+
+    <!-- Слайд 12: Практика 3 — собери алгоритм -->
+    <div class="slide" id="slide12">
+        <h2>🧩 ПРАКТИКА 3: СОБЕРИ АЛГОРИТМ</h2>
+        <div class="question-box"><p>Расположи действия в правильном порядке:</p>
+            <ul>
+                <li>🔹 Рассказать взрослому</li>
+                <li>🔹 Выйти из чата</li>
+                <li>🔹 Сделать скриншот</li>
+                <li>🔹 Заблокировать</li>
+                <li>🔹 Остановиться</li>
+            </ul>
+            <div class="button" onclick="revealAnswer('algoAnswer')">Показать порядок</div>
+            <div id="algoAnswer" class="hidden-answer">✅ Правильный порядок: 1) Остановиться, 2) Выйти из чата, 3) Сделать скриншот, 4) Заблокировать, 5) Рассказать взрослому.</div>
+        </div>
+    </div>
+
+    <!-- Слайд 13: Проверка навыка -->
+    <div class="slide" id="slide13">
+        <h2>🔍 ПРОВЕРКА НАВЫКА</h2>
+        <div class="roleplay">«Если ты уйдёшь из чата, я всем расскажу про тебя»</div>
+        <div class="question-box">
+            <p>❓ Вопросы:</p>
+            <ul>
+                <li>Что здесь происходит? (какой крючок?)</li>
+                <li>Какой шаг самый правильный?</li>
+                <li>Кому можно рассказать?</li>
+            </ul>
+            <div class="button" onclick="revealAnswer('skillCheck')">Показать ответ</div>
+            <div id="skillCheck" class="hidden-answer">✅ Это шантаж и запугивание. Самый правильный шаг — не отвечать, сделать скриншот, заблокировать и рассказать родителям или учителю.</div>
+        </div>
+    </div>
+
+    <!-- Слайд 14: Рефлексия -->
+    <div class="slide" id="slide14">
+        <h2>🤔 РЕФЛЕКСИЯ: ЗАКОНЧИ ФРАЗУ</h2>
+        <div class="grid-2">
+            <div class="card" onclick="toggleAnswer(this)"><p>📝 Теперь я знаю, что если просят молчать — это …</p><div class="hidden-answer">… опасный сигнал, надо рассказать взрослым.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>📝 Самая полезная фраза-щит для меня —</p><div class="hidden-answer">… «Я выхожу из чата» / «Мне так нельзя».</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>📝 Если мне станет стрёмно, я …</p><div class="hidden-answer">… остановлюсь, выйду и расскажу.</div></div>
+        </div>
+    </div>
+
+    <!-- Слайд 15: Челлендж -->
+    <div class="slide" id="slide15">
+        <div class="challenge" style="background: #ffe5b4; border-radius: 80px; padding: 40px; text-align: center;">
+            <h2 style="font-size: 44px;">🎯 ЧЕЛЛЕНДЖ</h2>
+            <p style="font-size: 28px;">Запомни <strong>одну фразу-щит</strong>, которую ты реально готов использовать.</p>
+            <div class="button" onclick="alert('Молодец! Сохрани фразу-щит и помни о ней.')">📝 ЗАПОМНИТЬ</div>
+        </div>
+    </div>
+
+    <!-- Слайд 16: БОНУС — Стоп-кадр (смешная история) -->
+    <div class="slide" id="slide16">
+        <h2>😂 БОНУС: «СТОП-КАДР» (СМЕШНАЯ ИСТОРИЯ)</h2>
+        <div class="scene-description">
+            <p><strong>Лена получила сообщение:</strong> «Если ты сейчас не ответишь, я расскажу всем, что ты боишься пауков!»</p>
+            <p>Лена сначала растерялась, но потом вспомнила про фразу-щит. Она ответила: «Рассказывай, моя коллекция пауков только выиграет от рекламы!» и заблокировала собеседника.</p>
+        </div>
+        <div class="question-box">
+            <p>❓ Какие крючки использовал собеседник? Почему ответ Лены сработал?</p>
+            <div class="button" onclick="revealAnswer('jokeAnswer')">Показать ответ</div>
+            <div id="jokeAnswer" class="hidden-answer">✅ Крючок: страх (разоблачения), давление чувством вины. Лена использовала юмор и не стала оправдываться — это обесценило угрозу.</div>
+        </div>
+    </div>
+
+    <!-- Слайд 17: БОНУС — Найди крючок в смешном диалоге -->
+    <div class="slide" id="slide17">
+        <h2>😂 БОНУС: НАЙДИ КРЮЧОК В СМЕШНОМ ДИАЛОГЕ</h2>
+        <div class="roleplay">
+            — Почему ты не отвечаешь? Ты меня бесишь!<br>
+            — Я занят, дела.<br>
+            — А я думала, мы друзья. Значит, тебе на меня всё равно?<br>
+            — Если я не отвечаю 5 минут, это не значит, что я тебя ненавижу. Я выхожу из чата, пока не успокоюсь.
+        </div>
+        <div class="question-box"><p>❓ Какие приёмы давления использовал первый собеседник? Что помогло второму выйти?</p>
+            <div class="button" onclick="revealAnswer('funnyHook')">Показать ответ</div>
+            <div id="funnyHook" class="hidden-answer">✅ Давление чувством вины («значит, тебе на меня всё равно»), манипуляция. Второй использовал фразу-щит и выход из чата.</div>
+        </div>
+    </div>
+
+    <!-- Слайд 18: БОНУС — Фраза-щит с юмором -->
+    <div class="slide" id="slide18">
+        <h2>🗣️ БОНУС: ФРАЗА-ЩИТ С ЮМОРОМ</h2>
+        <div class="roleplay">«Если ты сейчас не сделаешь, что я прошу, я больше никогда с тобой не буду общаться».</div>
+        <div class="question-box"><p>Придумай смешной, но безопасный ответ.</p>
+            <div class="button" onclick="revealAnswer('funnyShield')">Показать пример</div>
+            <div id="funnyShield" class="hidden-answer">✅ «Обещаешь? Это будет лучший день в моей жизни!», «Ну и ладно, у меня есть ещё 100500 друзей», «Схожу-ка я чай попью, а ты подумай».</div>
+        </div>
+    </div>
+
+    <!-- Слайд 19: БОНУС — Смешная ситуация: как Олег обезоружил давлением -->
+    <div class="slide" id="slide19">
+        <h2>😂 БОНУС: «ТЫ МНЕ ДОЛЖЕН» И ОЛЕГ</h2>
+        <div class="scene-description">
+            <p><strong>Олегу пишет знакомый:</strong> «Ты же мне должен 500 рублей, отдай сейчас! Иначе я расскажу твоим родителям, что ты прогуливал!»</p>
+            <p>Олег ответил: «О, отлично, я как раз хотел поговорить с родителями о прогулах. Давай вместе им позвоним, ты им всё и расскажешь». Собеседник сразу перестал писать.</p>
+        </div>
+        <div class="question-box">
+            <p>❓ Почему приём Олега сработал?</p>
+            <div class="button" onclick="revealAnswer('olegAnswer')">Показать ответ</div>
+            <div id="olegAnswer" class="hidden-answer">✅ Он не испугался угрозы, а, наоборот, согласился и предложил привлечь взрослых — это лишило шантажиста власти.</div>
+        </div>
+    </div>
+
+    <!-- Слайд 20: БОНУС — Карта доверия -->
+    <div class="slide" id="slide20">
+        <h2>👥 КАРТА ДОВЕРИЯ</h2>
+        <div class="lecture-block">
+            <p>Запиши 3–5 взрослых, которым ты можешь рассказать о давлении, угрозах или некомфортной ситуации.</p>
+            <p>Это могут быть родители, учитель, психолог, тренер, старший брат/сестра.</p>
+        </div>
+        <div class="flag-list"><p class="green-flag">💡 Если один не поможет — обратись к другому. Ты не один.</p></div>
+    </div>
+
+    <!-- Слайд 21: БОНУС — Что делать, если стал свидетелем? -->
+    <div class="slide" id="slide21">
+        <h2>🤝 А ТЫ МОЖЕШЬ ПОМОЧЬ ДРУГОМУ</h2>
+        <div class="lecture-block">
+            <p>Если ты видишь, что кого-то травят, давят или пугают в сети:</p>
+            <ul>
+                <li>Поддержи жертву в личных сообщениях: «Ты не один».</li>
+                <li>Не присоединяйся к травле.</li>
+                <li>Сделай скриншоты.</li>
+                <li>Расскажи взрослому, который может помочь.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Слайд 22: БОНУС — Тест: твой алгоритм выхода -->
+    <div class="slide" id="slide22">
+        <h2>📝 ТЕСТ: ТВОЙ АЛГОРИТМ ВЫХОДА</h2>
+        <div class="roleplay">«Почему ты игноришь? Ответь немедленно, иначе я больше с тобой не общаюсь».</div>
+        <div class="question-box"><p>Выбери правильную реакцию:</p>
+            <div class="button" onclick="showTestFeedback('test1')">Начать объяснять, почему не отвечаю</div>
+            <div class="button" onclick="showTestFeedback('test2')">Написать «Я выхожу из чата» и заблокировать</div>
+            <div class="button" onclick="showTestFeedback('test3')">Сказать «Ты не прав» и продолжить спор</div>
+            <div id="testFeedback" class="game-feedback"></div>
+        </div>
+    </div>
+
+    <!-- Слайд 23: БОНУС — Дополнительные красные флаги -->
+    <div class="slide" id="slide23">
+        <h2>🚩 ЕЩЁ КРАСНЫЕ ФЛАГИ</h2>
+        <div class="grid-2">
+            <div class="card" onclick="toggleAnswer(this)"><p>«Ты особенный, не как все»</p><div class="hidden-answer">Изоляция, лесть перед давлением.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>«Только ты можешь мне помочь»</p><div class="hidden-answer">Создание ложной ответственности.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>«Не будь эгоистом»</p><div class="hidden-answer">Давление чувством вины.</div></div>
+        </div>
+    </div>
+
+    <!-- Слайд 24: БОНУС — Ситуация для самостоятельной тренировки -->
+    <div class="slide" id="slide24">
+        <h2>🏋️ ТРЕНИРУЙСЯ ДОМА</h2>
+        <div class="roleplay">Представь: кто-то в игре пишет «Дай свой номер телефона, иначе я заблокирую тебя в игре».</div>
+        <div class="question-box"><p>Придумай ответ с фразой-щитом (можно с юмором).</p>
+            <div class="button" onclick="revealAnswer('trainAnswer')">Пример ответа</div>
+            <div id="trainAnswer" class="hidden-answer">✅ «Я не даю свой номер незнакомцам. Блокируй, мне не жалко», «Позвони в поддержку игры, они помогут тебе разобраться».</div>
+        </div>
+    </div>
+
+    <!-- Слайд 25: Итоговая рефлексия -->
+    <div class="slide" id="slide25">
+        <div style="background: #ffecd6; border-radius: 80px; padding: 50px; text-align: center;">
+            <h2 style="font-size: 56px; color: #1e2a3e;">🌟 ИТОГ</h2>
+            <p style="font-size: 32px;">Ты знаешь, как распознавать давление и выходить из опасного общения.</p>
+            <ul style="font-size: 26px; text-align: left; max-width: 700px; margin: 30px auto;">
+                <li>🛡️ Фразы-щиты работают — используй их</li>
+                <li>🚩 Красные флаги — повод остановиться</li>
+                <li>🤝 Ты не один, рядом есть взрослые, которые помогут</li>
+                <li>💪 Твоя безопасность важнее вежливости</li>
+            </ul>
+            <p style="font-size: 28px;">💪 Береги себя и помогай друзьям!</p>
+        </div>
+    </div>
+
+    <!-- Слайд 26: Анонс следующего занятия -->
+    <div class="slide" id="slide26">
+        <div style="background: #1e2a3e; color: white; border-radius: 70px; padding: 50px; text-align: center;">
+            <p style="font-size: 48px; font-weight: 800; color: #f28b6b;">📢 НА СЛЕДУЮЩЕМ ЗАНЯТИИ</p>
+            <p style="font-size: 32px;">👉 что делать, если уже случилось — взлом, скам, стыд, потеря аккаунта</p>
+            <p style="font-size: 32px;">👉 как вернуть контроль, а не застрять в «я виноват»</p>
+        </div>
+    </div>
+
+    <!-- Слайд 27: Цитата для запоминания -->
+    <div class="slide" id="slide27">
+        <div style="background: #ffe0b0; border-radius: 80px; padding: 50px; text-align: center;">
+            <p style="font-size: 48px; font-weight: 800; color: #1e2a3e;">«Если стало стрёмно — это уже повод остановиться».</p>
+            <p style="font-size: 32px; margin-top: 30px;">Твои чувства — твой компас.</p>
+        </div>
+    </div>
+
+    <!-- Слайд 28: Глоссарий -->
+    <div class="slide" id="slide28">
+        <h2>📚 ГЛОССАРИЙ</h2>
+        <div class="grid-2">
+            <div class="card" onclick="toggleAnswer(this)"><p>🛡️ Фраза-щит</p><div class="hidden-answer">Короткая фраза, помогающая выйти из диалога без объяснений.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>🚩 Красный флаг</p><div class="hidden-answer">Признак опасного поведения или манипуляции.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>🤐 Давление</p><div class="hidden-answer">Попытка заставить делать что-то через страх, вину или срочность.</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>📸 Скриншот</p><div class="hidden-answer">Доказательство угроз — сохраняй!</div></div>
+            <div class="card" onclick="toggleAnswer(this)"><p>👥 Карта доверия</p><div class="hidden-answer">Список взрослых, к которым можно обратиться.</div></div>
+        </div>
+    </div>
+
+    <!-- Слайд 29: БОНУС — Короткие шутки о давлении -->
+    <div class="slide" id="slide29">
+        <h2>😂 БОНУС: КОРОТКИЕ ШУТКИ</h2>
+        <div class="joke">
+            — «Если не ответишь, я больше не буду с тобой играть».<br>
+            — «Ура, наконец-то высплюсь!»
+        </div>
+        <div class="joke">
+            — «Ты мне должен, отдай деньги сейчас».<br>
+            — «Держи виртуальную конфету 🍬, остальное после зарплаты».
+        </div>
+        <div class="joke">
+            — «Расскажешь кому-нибудь — будет хуже».<br>
+            — «А если расскажу, будет ещё хуже? Я люблю сложности».
+        </div>
+    </div>
+
+    <!-- Слайд 30: Завершение -->
+    <div class="slide" id="slide30">
+        <div style="text-align: center; padding: 60px 20px;">
+            <p style="font-size: 64px;">🎉</p>
+            <p style="font-size: 48px; font-weight: 800; color: #1e2a3e;">ТЫ СПРАВИЛСЯ!</p>
+            <p style="font-size: 32px;">Теперь ты умеешь распознавать давление и выходить из опасных разговоров.</p>
+            <p style="font-size: 28px; margin-top: 40px;">💪 Береги себя и помогай друзьям!</p>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <button class="nav-btn" onclick="prevSlide()">◀ НАЗАД</button>
+        <button class="nav-btn" onclick="nextSlide()">ВПЕРЁД ▶</button>
+    </div>
+</div>
+
+<script>
+    let current = 1;
+    const total = 30;
+
+    function showSlide(n) {
+        document.querySelectorAll('.slide').forEach((slide, index) => {
+            slide.classList.remove('active');
+            if (index + 1 === n) {
+                slide.classList.add('active');
+            }
+        });
+        document.getElementById('currentSlide').innerText = n;
+    }
+
+    function nextSlide() {
+        if (current < total) {
+            current++;
+            showSlide(current);
+        }
+    }
+
+    function prevSlide() {
+        if (current > 1) {
+            current--;
+            showSlide(current);
+        }
+    }
+
+    function toggleAnswer(card) {
+        const answer = card.querySelector('.hidden-answer');
+        if (answer) {
+            answer.classList.toggle('active-answer');
+            answer.style.display = answer.classList.contains('active-answer') ? 'block' : 'none';
+        }
+    }
+
+    function revealAnswer(id) {
+        const answerDiv = document.getElementById(id);
+        if (answerDiv) {
+            answerDiv.classList.toggle('active-answer');
+            answerDiv.style.display = answerDiv.classList.contains('active-answer') ? 'block' : 'none';
+        }
+    }
+
+    function showTestFeedback(choice) {
+        const fb = document.getElementById('testFeedback');
+        if (choice === 'test1') {
+            fb.innerHTML = '⚠️ Объяснения могут затянуть диалог и дать повод для дальнейшего давления. Лучше выйти сразу.';
+            fb.style.background = '#fff59d';
+            fb.style.display = 'block';
+        } else if (choice === 'test2') {
+            fb.innerHTML = '✅ Отлично! Фраза-щит + блокировка — самый безопасный вариант.';
+            fb.style.background = '#c8e6c9';
+            fb.style.display = 'block';
+        } else {
+            fb.innerHTML = '❌ Спор только усилит давление. Безопаснее выйти из диалога.';
+            fb.style.background = '#ffcdd2';
+            fb.style.display = 'block';
+        }
+        setTimeout(() => { fb.style.display = 'none'; }, 4000);
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') nextSlide();
+        if (e.key === 'ArrowLeft') prevSlide();
+    });
+</script>
+</body>
+</html>
